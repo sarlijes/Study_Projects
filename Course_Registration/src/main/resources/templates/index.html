@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!--<link rel="stylesheet" href="style.css">-->
+        <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+            <meta charset="UTF-8">
+            </meta> 
+            <title>Course registration</title>
+    </head>
+    <body style="background-image: linear-gradient(rgba(62, 120, 120, 0.4), rgba(62, 20, 120, 0.4));
+          font-family: Lato;
+          height: 100vh;
+          margin: 300;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: Lato;
+          font-size: 22px;
+          text-align: center;
+          text-transform: uppercase;
+          letter-spacing: 4px;
+          font-weight: 100;
+          margin-top: 40px;
+          margin-bottom: 10px;
+          position: relative;
+          color: #555;">
+        <div class="txt">
+             Course Registration Form 
+             <br><br>
+            Insert new contact information
+            <br><br>
+        </div>
+
+        <div class="txt">
+
+            <form th:action="@{/}" method="POST" >
+                <span>First name:</span>
+                
+                <input type="text" name="firstName"/>
+                <br><br>
+                        
+                <span>Last name:</span>
+                <input type="text" name="lastName"/>
+                <br>
+                <br>
+                <span>E-mail address:</span>
+                <input type="text" name="email"/>
+                <br><br>
+                <span>Phone number:</span>
+                <input type="text" name="phone"/>
+                <br><br>
+               
+                <input type="submit" value="Confirm and send"/>
+            </form>   
+
+        </div>
+        <div class="txt">
+            <ul class="txt" style="list-style: none;">
+                <li style="
+                    margin-top: 20px;
+                    margin-bottom: 10px;" 
+                    th:each="registration: ${list}">
+                    <span th:text="${registration.firstName}"></span>, 
+                <span th:text="${registration.lastName}"></span>, 
+                <span th:text="${registration.email}"></span>, 
+                <span th:text="${registration.phone}"></span>
+                </li>
+            </ul>
+        </div>
+
+    </body>
+
+</html>
