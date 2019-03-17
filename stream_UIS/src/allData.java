@@ -25,7 +25,7 @@ public class allData {
     }
 
     public void printSize() {
-        System.out.println("Total row  count" + allData.size());
+        System.out.println("Total row  count: " + allData.size() + "\n");
     }
 
     public List<String> getLocations() {
@@ -36,7 +36,7 @@ public class allData {
                 .filter(l -> !l.startsWith("4"))
                 .distinct()
                 .forEach(l -> filteredLocations.add(l));
-        
+
         return filteredLocations;
     }
 

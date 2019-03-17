@@ -14,7 +14,7 @@ public class stream_UIS {
         userInterface ui = new userInterface(UISData);
 
         try {
-            Files.lines(Paths.get("EDULIT_DS_13032019045843088.csv"))
+            Files.lines(Paths.get(args[0]))
                     .skip(1)
                     .map(l -> l.replace("\"", ""))
                     .map(row -> row.split(","))
