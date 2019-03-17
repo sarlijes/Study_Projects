@@ -11,7 +11,7 @@ public class userInterface {
 
         OUTER:
         while (true) {
-            System.out.println("Locations available: + \n");
+            System.out.println("Locations available: \n");
             List<String> filteredLocations = UISData.getLocations();
 
             int counter = 0;
