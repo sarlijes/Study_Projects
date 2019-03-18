@@ -34,8 +34,11 @@ Years available:
 >2013
 
 Fetching data for location GHA, year 2013
+
 {Rate of out-of-school children of primary school age, Ghana,  male (%), 2013: value: 14.29037}
+
 {Rate of out-of-school children of primary school age, Ghana,  both sexes (%), 2013: value: 14.15155}
+
 {Rate of out-of-school children of primary school age, Ghana,  female (%), 2013: value: 14.00703}
 
 
