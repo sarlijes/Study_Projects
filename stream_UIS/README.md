@@ -14,7 +14,7 @@ the percentages of out-of-school rates for children of primary school age. Each 
 one or several rates for one or more years. Many countries have several rates for different 
 stats (such as for two genders and one for both). 
 
-The UI first lists the countries (short example below; user input is marked woth ">>"):
+The UI first lists the countries (shorter example below with user input):
 
 Locations available:
 
@@ -26,12 +26,12 @@ UGA CHE AUS LBR JPN PHL HND HKG COM BEN
 
 Insert location: (insert x to quit)
 
->> GHA
+>GHA
 
 Years available:
 2013 2014 2015 2016 2017 2018 
 
->>2013
+>2013
 
 Fetching data for location GHA, year 2013
 {Rate of out-of-school children of primary school age, Ghana,  male (%), 2013: value: 14.29037}
