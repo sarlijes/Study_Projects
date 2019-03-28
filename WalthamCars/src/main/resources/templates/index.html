@@ -1,0 +1,61 @@
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Wexford Used Cars Application</title> 
+    </head>
+
+    <body>
+        <h1>Car Database</h1>
+
+        <table>
+            <tr>
+                <th>Car</th>
+            </tr>
+
+            <tr th:each="car : ${cars}">
+                <td th:text="${car.model}">Car model</td>
+            </tr>
+        </table>
+
+        <ul>
+            <li th:each="car : ${cars}">
+                <a th:href="@{/cars/{id}(id=${car.id})}">
+                    <span th:text="${car.make}">make</span>
+                    <span th:text="${car.model}">model</span>
+                    <span th:text="${car.year}">year</span>
+                    <span th:text="${car.color}">color</span>
+                    <span th:text="${car.year}">year</span>
+                    <span th:text="${car.price}">price</span>
+                </a>
+            </li>
+        </ul>
+
+        <h2>Add a car</h2>
+
+        <form th:action="@{/}" method="POST">
+            <span>Make:</span>
+            <input type="text" name="make"/>
+            <span>Model:</span>
+            <input type="text" name="model"/>
+            <span>Vehicle Indentification Number:</span>
+            <input type="text" name="vin"/>
+            <span>Color:</span>
+            <input type="text" name="color"/>
+            <span>Year:</span>
+            <input type="text" name="year"/>
+            <span>Price:</span>
+            <input type="text" name="price"/>
+            <input type="submit" value="Add!"/>
+        </form>
+    </body>
+</html>
