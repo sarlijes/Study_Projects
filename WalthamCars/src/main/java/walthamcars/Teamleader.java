@@ -6,7 +6,7 @@ public class Teamleader extends Person {
 
     private ArrayList<Worker> teamMembers;
 
-    public Teamleader(Integer id, String firstName, String lastName, String email, String department) {
+    public Teamleader(String id, String firstName, String lastName, String email, String department) {
         super(id, firstName, lastName, email, department);
         this.teamMembers = new ArrayList();
     }

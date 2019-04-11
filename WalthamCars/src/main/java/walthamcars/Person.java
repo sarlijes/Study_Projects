@@ -3,9 +3,9 @@ package walthamcars;
 public abstract class Person {
 
     private String firstName, lastName, email, department;
-    private Integer id;
+    private String id;
 
-    public Person(Integer id, String firstName, String lastName, String email, String department) {
+    public Person(String id, String firstName, String lastName, String email, String department) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -34,7 +34,7 @@ public abstract class Person {
         return department;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

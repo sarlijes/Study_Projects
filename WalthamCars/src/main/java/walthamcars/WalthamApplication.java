@@ -7,12 +7,14 @@ import java.util.Collections;
 public class WalthamApplication {
 
     static CarRepository carRepository = new CarRepository();
+    static PersonRepository personRepository = new PersonRepository();
 
     public static void main(String[] args) {
         CarController carController = new CarController();
 //        carController.readCarFile();
 //        run(WalthamApplication.class, args);
         CarController.readCarFile(carRepository);
+        CarController.readWorkerFile(personRepository);
 //        carRepository.printAll();
 
         ArrayList<Car> low = carRepository.carListLowest10Price();

@@ -18,6 +18,7 @@ public class PersonRepository {
     public void addWorker(Worker w) {
         workers.add(w);
         people.add(w);
+        System.out.println(w.toString());
     }
 
     public void addTeamleader(Teamleader t) {

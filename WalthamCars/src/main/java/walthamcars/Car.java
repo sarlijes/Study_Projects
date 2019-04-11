@@ -3,11 +3,11 @@ package walthamcars;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Car implements Comparable<Car> {
+public  class Car implements Comparable<Car> {
 
-    private String make, model, vin, color;
-    private String year, price;
-    private Integer yearInt, priceInt;
+    public static  String make, model, vin, color;
+    public static  String year, price;
+    public static  Integer yearInt, priceInt;
 
     public Car(String make, String model, String vin, String color, String year, String price) {
         this.make = make;

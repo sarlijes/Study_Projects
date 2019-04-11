@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class CarRepository {
 
-    private ArrayList<Car> cars;
+    public static ArrayList<Car> cars;
 
     public CarRepository() {
         cars = new ArrayList();
