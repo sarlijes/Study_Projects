@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+                    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
+
+                        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                        <title>FriendFace</title>                        
+                        </head>                        
+                        <body>
+                            <nav class="navbar navbar-expand-md">
+                                <a class="nav-link" th:href="@{/profile/{profileCode}(profileCode=${logged.profileCode})}">FriendFace</a>
+                                <div th:text="'Logged in as: ' + ${logged.userName}"></div>
+
+                                <div class="collapse navbar-collapse" id="main-navigation" style="margin-left:300px">
+
+                                    <form th:if="${!allUserAccounts.empty}" th:action="@{/profile/{profileCode}/sendFriendRequest(profileCode=${userAccount.profileCode})}"
+                                          method="POST">
+                                        <!--<input  list="allUserAccounts" name="allUserAccounts" >--> 
+                                        <!--<datalist id="allUserAccounts">-->
+                                        <select  name="chosenId">
+                                            <option th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" 
+                                                    th:text="${userAccount.firstName + ' ' + userAccount.lastName}">
+                                            </option>
+                                        </select>
+                                        <!--</datalist>-->
+                                        <!--</input>-->
+                                        <button type="submit">Send friend request</button>
+                                    </form>
+                                </div>
+                                <div class="collapse navbar-collapse" id="main-navigation">
+                                    <a class="nav-link" href="/logout">Log out</a>
+                                </div>
+                            </nav>
+                            <main class="container"><br><br>
+                                        <h2 th:text=" ${userAccount.firstName} + '\'s Profile'"></h2>
+
+                                        <div class="row">
+                                            <div class="col-4"style="padding:15px; padding-top: 50px;">
+                                                <div th:if="${profilePicId} != null">
+                                                    <img th:src="@{/picture/{id}/(id=${profilePicId})}" style="width:250px; border-radius:5px;"/>
+                                                </div>
+                                                <div class="features" <tr th:if="${!sentFriendRequests.empty}">
+                                                        <div class="col-12" th:if="${userAccount.userName == logged.userName}">
+                                                            <h5 th:if="${hasPendingSentFriendRequests} == true">Sent Friend Requests:</h5>
+
+                                                            <ul th:each="friendrequest: ${sentFriendRequests}" >
+                                                                <li th:if="${friendrequest.pending} == true">
+                                                                    <span th:text="${friendrequest.targetUserAccount.firstName}">name</span>
+                                                                    <span th:text="${friendrequest.targetUserAccount.lastName}">name</span>
+                                                                    <span th:text="'on ' + ${#temporals.format(friendrequest.friendRequestTimeStamp, 'dd.MM.yyyy HH:mm')}">name</span>
+                                                                    <span th:if="${friendrequest.pending} == true">   (pending)</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                </div>
+                                                <div class="features" <tr th:if="${!recievedFriendRequests.empty}">
+                                                        <div class="col-12" th:if="${userAccount.userName == logged.userName}">
+                                                            <h5 th:if="${hasPendingRecievedFriendRequests} == true" >Recieved Friend Requests:</h5>
+                                                            <ul th:each="friendrequest : ${recievedFriendRequests}" >
+                                                                <li th:if="${friendrequest.pending} == true">
+                                                                    <span th:text="${friendrequest.sourceUserAccount.firstName}">name</span>
+                                                                    <span th:text="${friendrequest.sourceUserAccount.lastName}">name</span>
+                                                                    <span th:text="'on ' + ${#temporals.format(friendrequest.friendRequestTimeStamp, 'dd.MM.yyyy HH:mm')}">name</span>
+                                                                    <form th:action="@{/friendrequest/reject/{id}(id=${friendrequest.id})}" th:method="POST">
+                                                                        <input type="submit" id="reject" value="Reject"/></form>
+                                                                    <form th:action="@{/friendrequest/approve/{id}(id=${friendrequest.id})}" th:method="POST">
+                                                                        <input type="submit" id="approve" value="Approve"/></form>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                </div>
+                                                <div class="features">
+
+                                                    <div class="col-12">
+
+                                                        <h5 th:if="${hasFriends} == true" >Friends:</h5>
+                                                        <h5 th:if="${hasFriends} == false" >No friends at the moment</h5>
+
+                                                        <ul th:each="friendrequest : ${recievedFriendRequests}">
+                                                            <li th:if="${friendrequest.accepted} == true" >
+                                                                <a  class="nav-link-small"  th:href="@{/profile/{profileCode}(profileCode=${friendrequest.sourceUserAccount.profileCode})}" 
+                                                                    th:text="${friendrequest.sourceUserAccount.firstName} + ' ' + ${friendrequest.sourceUserAccount.lastName}" >name</a>
+                                                                <div  th:if="${userAccount.userName == logged.userName}">
+                                                                    <form th:action="@{/friendrequest/reject/{id}(id=${friendrequest.id})}" th:method="POST">
+                                                                        <input type="submit" id="reject" value="Remove from friends"/></form></div>
+                                                            </li>
+                                                        </ul>
+                                                        <ul  th:each="friendrequest : ${sentFriendRequests}">
+                                                            <li th:if="${friendrequest.accepted} == true">
+                                                                <a  class="nav-link-small"   th:href="@{/profile/{profileCode}(profileCode=${friendrequest.targetUserAccount.profileCode})}" 
+                                                                    th:text="${friendrequest.targetUserAccount.firstName} + ' ' + ${friendrequest.targetUserAccount.lastName}" >name</a>
+                                                                <div  th:if="${userAccount.userName == logged.userName}">
+                                                                    <form th:action="@{/friendrequest/reject/{id}(id=${friendrequest.id})}" th:method="POST">
+                                                                        <input type="submit" id="reject" value="Remove from friends"/></form></div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="features" th:if="${userAccount.userName == logged.userName}">
+
+                                                    <h5>Add new picture to gallery</h5>
+                                                    <form method="POST" th:action="@{/profile/{profileCode}(profileCode=${userAccount.profileCode})}"
+                                                          enctype="multipart/form-data">
+                                                        <input type="file" name="file" id="file" />Description:
+                                                        <input type="text" name="caption" id="caption" placeholder="..."/>
+                                                        <input type="submit" value="Add" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-8" style="padding:15px; padding-top: 50px; ">
+                                                <h5>Wall</h5><br>
+                                                    <form method="POST" th:action="@{/profile/{profileCode}/message(profileCode=${userAccount.profileCode})}">
+                                                        <input style="width:500px;"  type="text" name="content" placeholder="..."/>
+                                                        <input style="width:200px;"  type="submit" value="Write to the wall" />
+                                                    </form><br>
+                                                        <section th:each="message : ${recievedmessages}">
+                                                            <p th:text="${message.sender.firstName}
+                                                               + ' '
+                                                               + ${message.sender.lastName}
+                                                               + ' wrote on '
+                                                               + ${#temporals.format(message.messageTimeStamp, 'dd.MM.yyyy HH:mm')}
+                                                               + ':'"
+                                                        </p>
+                                                        <p th:text="${message.content}"></p>
+                                                        <p>
+
+                                                            <table style="position: absolute; right: 30px;">
+                                                                <tr>
+                                                                    <th th:text="'Message like count: ' + ${#lists.size(message.messageThumbUps)}">
+                                                                    </th>
+                                                                    <th>
+                                                                        <form 
+                                                                            th:action="@{/profile/{profileCode}/message/{id}/addThumbUp(profileCode=${userAccount.profileCode},id=${message.id})}"th:method="POST">
+                                                                            <input type="submit" value="Like" />
+                                                                        </form>
+                                                                    </th>
+                                                                </tr>
+                                                            </table></p>
+
+                                                        <ul style="list-style: none; font-weight: 500;">
+                                                            <div  th:each="comment: ${message.messageComments}">
+                                                                <p th:text="${comment.writer.firstName}+' ' + ${comment.writer.lastName} + ' commented on '
+                                                                   + ${#temporals.format(comment.commentTimeStamp, 'dd.MM.yyyy HH:mm')} + ': '"</p>
+                                                                <p th:text="${comment.content}"></p>
+                                                            </div>
+                                                            <th>
+                                                                <form th:action="@{/profile/{profileCode}/message/{id}/addComment(profileCode=${userAccount.profileCode},id=${message.id})}" th:method="POST">
+                                                                    <input type="text" name="commentContent" id="caption" placeholder="..."/>
+                                                                    <input type="submit" value="Add comment" />
+                                                                </form>
+                                                            </th>
+                                                        </ul>
+                                                        <br>
+                                                    </section>
+                                                    </div>
+                                                    <div class="col-12" style="padding:15px; padding-top: 50px;">
+                                                        <h2>Picture Gallery</h2>
+                                                        <tr th:if="${pictures.empty}">
+                                                            <td colspan="4">No pictures</td>
+                                                        </tr>
+                                                        <div class="gallery" th:each="picture : ${pictures}">
+                                                            <a th:href="@{/picture/{id}/(id=${picture.id})}">
+                                                                <img th:src="@{/picture/{id}/(id=${picture.id})}"/>
+                                                            </a>
+                                                            <table style="display: flex; margin: 10px; padding: 10px;">
+
+                                                                </th>
+                                                                <ul style="list-style: none; font-weight: 500;">
+                                                                    <div  style="list-style: none; font-weight: 600; padding: 15px" class="desc" th:text="${picture.caption}"Description></div>
+                                                                    <div  th:each="comment: ${picture.pictureComments}">
+                                                                        <p th:text="${comment.writer.firstName}+' ' + ${comment.writer.lastName} + ' commented on '
+                                                                           + ${#temporals.format(comment.commentTimeStamp, 'dd.MM.yyyy HH:mm')} + ': ' + ${comment.content}"</p>
+                                                                    </div>
+                                                                </ul>
+                                                                <th>
+                                                                    <form th:action="@{/profile/{profileCode}/picture/{id}/addComment(profileCode=${userAccount.profileCode},id=${picture.id})}" th:method="POST">
+                                                                        <input type="text" name="pictureContent" id="caption" placeholder="..."/>
+                                                                        <input type="submit" value="Add comment" />
+                                                                    </form>
+                                                                </th>
+                                                            </table>
+                                                            <div style="display: flex; margin: 10px; padding: 10px;" th:if="${userAccount.userName == logged.userName}">
+                                                                <form th:action="@{/picture/{id}(id=${picture.id})}" th:method="makeprofilepicture">
+                                                                    <input type="submit" id="makeprofilepicture" value="Set to profile pic"/>
+                                                                </form>
+                                                                <form th:action="@{/picture/{id}(id=${picture.id})}" th:method="delete">
+                                                                    <input type="submit" id="delete" value="Delete"/>
+                                                                </form>
+                                                            </div>
+
+                                                            <div style="display: flex; margin: 10px; padding: 10px;">
+                                                                <form>
+                                                                    <th th:text="' Picture like count: ' + ${#lists.size(picture.pictureThumbUps)}">
+                                                                </form>
+                                                                <form th:action="@{/profile/{profileCode}/picture/{id}/addThumbUp(profileCode=${userAccount.profileCode},id=${picture.id})}"th:method="POST">
+                                                                    <input type="submit" value="Like" />
+                                                                </form>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    </main>
+
+                                                    <!--                                                <div class="col-6"></div> <div class="col-lg-4 col-md-4 col-sm-12"></div>-->
+                                                    <!-- Optional JavaScript -->
+                                                    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                                                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                                                            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                                                    crossorigin="anonymous"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                                                            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                                                    crossorigin="anonymous"></script>
+                                                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                                                            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                                                    crossorigin="anonymous"></script>
+                                                    </body>
+                                                    </html>
+
