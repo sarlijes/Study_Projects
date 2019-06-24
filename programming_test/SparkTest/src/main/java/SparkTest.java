@@ -1,4 +1,3 @@
-// Please use http://localhost:4567/hash
 
 import static spark.Spark.*;
 import java.nio.charset.StandardCharsets;

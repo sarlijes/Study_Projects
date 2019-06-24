@@ -1,4 +1,4 @@
-# Hygga Software Developer test
+# Software Developer test
 
 Publish your solution along with instructions to compile and run the solution on a public
 code hosting site like GitHub or Bitbucket and send a link to the repository.
