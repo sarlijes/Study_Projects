@@ -19,7 +19,7 @@ public class SparkTest {
             res.status(200);
             res.type("application/json");
             res.body(hashTheText(req.body()));
-            return "{\"text\":\"" + hashTheText(req.body()) + "\"}";
+            return "{\"hash\":\"" + hashTheText(req.body()) + "\"}";
 
         });
     }
