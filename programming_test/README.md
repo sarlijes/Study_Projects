@@ -13,10 +13,17 @@ The project can be run in Java IDE and while running, POST requests can be made 
 Below are provided some request bodies to try the request with: 
 ```
 {"text": "XXX"}
+```
 (Status 200 OK)
+```
 {"text": "123456789"}
+```
 (Status 200 OK)
+```
 {"tect": "XXX"}
+```
 (Status 400 Bad request)
+```
 {"text":}
+```
 (Status 400 Bad request)
