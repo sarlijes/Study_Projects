@@ -1,0 +1,49 @@
+# Hygga Software Developer test
+
+Publish your solution along with instructions to compile and run the solution on a public
+code hosting site like GitHub or Bitbucket and send a link to the repository.
+
+## Part I
+
+Write a JavaScript-function that takes a string and prints its words, one per
+line, in a rectangular frame. For example the string "Hello World in a frame"
+gets printed as:
+
+*********
+* Hello *
+* World *
+* in    *
+* a     *
+* frame *
+*********
+
+## Part II
+
+Using [Spark](http://sparkjava.com/) or [Play framework](https://www.playframework.com/)
+create a webservice endpoint that accepts the request described below and responds according
+to the specification.
+
+Request:
+
+```
+POST /hash
+```
+
+Request body:
+
+```
+{"text": "XXX"}
+```
+
+where the value of text is a string. 
+
+Return a HTTP 200 response with a request body that contains the SHA-256 hash of the
+value of text in a JSON object, as described below.
+
+ Response body:
+ 
+```
+{"hash": "sha-256-hash-of-the-value-of-text"}
+```
+
+If the input is invalid return an error.
