@@ -4,11 +4,15 @@ public class RunningSemaphoreExample {
 
     public static void main(String[] args) {
 
-//        Semaphore sA = new Semaphore(0);
-//        RunningTaskA task = new RunningTaskA(sA);
+        // A
 
-//        new Thread(task, "Ann").start();
-//        new Thread(task, "Bill").start();
+        Semaphore sA = new Semaphore(0);
+        RunningTaskA task = new RunningTaskA(sA);
+
+        new Thread(task, "Ann").start();
+        new Thread(task, "Bill").start();
+
+        // B
 
         Semaphore sB = new Semaphore(0);
         RunningTaskB taskB = new RunningTaskB(sB);
